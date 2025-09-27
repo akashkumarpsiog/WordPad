@@ -112,8 +112,42 @@ class Text {
     textHighlight(color) { this.doc.apply("hiliteColor", color); }
 }
 
+class List {
+    constructor(doc) { this.doc = doc; }
+    orderedList() { this.doc.apply("insertOrderedList"); }
+    unorderedList() { this.doc.apply("insertUnorderedList"); }
+    indent() { this.doc.apply("indent"); }
+    outdent() { this.doc.apply("outdent"); }
+}
+
+class Insert {
+    constructor(doc) { this.doc = doc; }
+    insertLink(url = "") {
+        const link = url || prompt("Enter URL");
+        if (link) this.doc.apply("createLink", link);
+    }
+    insertImage(url = "") {
+        const img = url || prompt("Enter Image URL");
+        if (img) this.doc.apply("insertImage", img);
+    }
+    insertTable(rows = 2, cols = 2) {
+        let table = "<table style='border:1px solid black;border-collapse:collapse;'>";
+        for (let r = 0; r < rows; r++) {
+            table += "<tr>";
+            for (let c = 0; c < cols; c++) {
+                table += "<td style='border:1px solid black;padding:5px;'> </td>";
+            }
+            table += "</tr>";
+        }
+        table += "</table><br/>";
+        this.doc.apply("insertHTML", table);
+    }
+}
+
 const doc = new WordDoc();
 const text = new Text(doc);
+const list = new List(doc);
+const insert = new Insert(doc);
 
 document.querySelectorAll('[data-command]').forEach(btn => {
     btn.addEventListener('click', () => {
@@ -133,3 +167,16 @@ document.getElementById("reset-editor").addEventListener('click', () => doc.rese
 document.getElementById("copy-plain").addEventListener('click', () => doc.copyText());
 document.getElementById("export-doc").addEventListener('click', () => doc.exportDoc());
 document.getElementById("export-pdf").addEventListener('click', () => doc.exportPDF());
+
+document.getElementById("insert-link").addEventListener('click', () => insert.insertLink());
+document.getElementById("insert-image").addEventListener('click', () => insert.insertImage());
+document.getElementById("insert-table").addEventListener('click', () => insert.insertTable());
+document.querySelectorAll('#lists button').forEach(btn => {
+    btn.addEventListener('click', () => {
+        const command = btn.dataset.command;
+        if (command === "insertOrderedList") list.orderedList();
+        else if (command === "insertUnorderedList") list.unorderedList();
+        else if (command === "indent") list.indent();
+        else if (command === "outdent") list.outdent();
+    });
+});
