@@ -1,0 +1,20 @@
+#editor{
+border:1px solid #ccc; 
+padding:10px;
+}
+header, footer{
+background-color: rgb(172, 217, 231);
+display:flex;
+justify-content: center;
+align-items: center;
+text-align: center;
+height: 3em;
+}
+
+footer{
+height: 2em;
+}
+
+navbar{
+height:2em;
+}

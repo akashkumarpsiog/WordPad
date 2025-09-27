@@ -1,0 +1,149 @@
+Title: WordPress Content Exporter – Rich Text Editor with WordPad Features 
+
+ 
+ 
+
+1. Objective 
+
+To design and implement a WordPress-friendly assignment editor using HTML, CSS, and core JavaScript (OOP approach). 
+
+The editor should replicate basic WordPad functionalities and allow users to create, format, and export content as Word (.doc) and PDF documents. 
+
+ 
+ 
+
+2. Expected Features (WordPad-like) 
+
+Your implementation should include the following: 
+
+a) Text Formatting 
+
+Bold, Italic, Underline 
+
+Headings (H1, H2, etc.) 
+
+Font size adjustments 
+
+Font styles (at least 2–3 variations) 
+
+Text alignment: Left, Center, Right, Justify 
+
+Text color & highlight 
+
+b) Lists & Structure 
+
+Ordered list (numbers) 
+
+Unordered list (bullets) 
+
+Indentation (increase/decrease) 
+
+c) Insert Options 
+
+Insert hyperlink 
+
+Insert images (from local system or via URL) 
+
+Insert table (basic: rows × columns) 
+
+d) Document Operations 
+
+Clear formatting option 
+
+Reset editor content 
+
+Copy as plain text / copy as HTML 
+
+Preview before download 
+
+e) Export Options 
+
+Export document as Word (.doc) 
+
+Export document as PDF 
+
+Title and Author metadata included in exported file 
+
+ 
+ 
+
+3. Technical Requirements 
+
+Programming Languages / Tools 
+
+HTML, CSS, JavaScript (no external frameworks like React/Angular) 
+
+OOP principles in JavaScript (create classes for Editor, Exporter, etc.) 
+
+Integration with WordPress 
+
+The final HTML file should work inside a WordPress Custom HTML block 
+
+Optionally, package it as a simple WordPress page template 
+
+External Libraries 
+
+Allowed: minimal libraries like html2pdf.js for PDF conversion 
+
+Not allowed: heavy WYSIWYG editors (TinyMCE, CKEditor, etc.) — you must build the core functionalities manually 
+
+ 
+ 
+
+4. Deliverables 
+
+A fully working HTML file with embedded CSS and JS 
+
+Exported sample .doc and .pdf files 
+
+A short write-up (1–2 pages) explaining: 
+
+How OOP principles are applied in your JS code 
+
+Challenges faced and how you solved them 
+
+ 
+ 
+
+5. Evaluation Criteria 
+
+✅ Completeness – All required WordPad-like features implemented 
+
+✅ Code Quality – Clean, modular, OOP-based JavaScript 
+
+✅ WordPress Compatibility – Runs smoothly in a WordPress environment 
+
+✅ Export Accuracy – Downloaded documents retain formatting correctly 
+
+✅ Presentation – Clear instructions, good UI/UX, and working demo 
+
+ 
+ 
+
+6. Bonus (Optional Enhancements) 
+
+Add Find & Replace feature 
+
+Add Dark mode / Light mode toggle 
+
+Add Auto-save (local storage) 
+
+Allow inserting page breaks for PDF export 
+
+ 
+ 
+
+7. Submission Guidelines 
+
+Submit your assignment folder (HTML file + supporting assets if any). 
+
+Attach exported sample files (.doc and .pdf). 
+
+Upload your work to GitHub (optional, bonus marks for proper documentation). 
+
+Deadline:  
+
+ 
+ 
+
+✅ This assignment mimics the WordPad experience inside WordPress, while testing your front-end coding skills and OOP knowledge in JavaScript. 
