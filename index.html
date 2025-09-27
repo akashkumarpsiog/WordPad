@@ -15,11 +15,22 @@
     <nav id="toolbar">
         <!-- Text formatting -->
         <div class="toolbar-section" id="text-format">
-            <button data-command="bold">B</button>
-            <button data-command="italic">I</button>
-            <button data-command="underline">U</button>
-            <select id="font-size"> ... </select>
-            <select id="font-family"> ... </select>
+            <button data-command="bold"><b>B</b></button>
+            <button data-command="italic"><i>I</i></button>
+            <button data-command="underline"><u>U</u></button>
+            <select id="font-size">
+                <option value="12px">12</option>
+                <option value="14px">14</option>
+                <option value="16px" selected>16</option>
+                <option value="20px">20</option>
+                <option value="24px">24</option>   
+            </select>
+            <select id="fontFamily">
+            <option value="Arial" selected>Arial</option>
+            <option value="Times New Roman">Times New Roman</option>
+            <option value="Courier New">Courier New</option>
+            <option value="Georgia">Georgia</option>
+            </select>
             <button data-command="justifyLeft">Left</button>
             <button data-command="justifyRight">Right</button>
             <button data-command="justifyCenter">Center</button>
@@ -48,7 +59,6 @@
             <button id="clear-format">Clear Formatting</button>
             <button id="reset-editor">Reset</button>
             <button id="copy-plain">Copy Text</button>
-            <button id="copy-html">Copy HTML</button>
             <button id="export-doc">Export .doc</button>
             <button id="export-pdf">Export PDF</button>
         </div>
