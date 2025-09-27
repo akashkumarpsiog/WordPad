@@ -47,3 +47,89 @@ What are the things: text, list, import, document, export
 What are the nouns: text, list, import. document, export 
 */
 
+const editor = document.getElementById("editor");
+
+class WordDoc {
+    apply(command, value = null) {
+        document.execCommand(command, false, value);
+        editor.focus();
+    }
+
+    clearFormat() {
+        document.execCommand("removeFormat", false, null);
+        editor.focus();
+    }
+
+    resetEditor() {
+        editor.innerHTML = "Type your text here...";
+    }
+
+    copyText() {
+        navigator.clipboard.writeText(editor.innerText);
+    }
+
+    exportDoc() {
+        const html = editor.innerHTML;
+        const blob = new Blob([html], { type: "application/msword" });
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = "document.doc";
+        link.click();
+    }
+
+    exportPDF() {
+        if (typeof html2pdf !== 'undefined') {
+            html2pdf().from(editor).save("document.pdf");
+        } else {
+            alert("html2pdf.js library not loaded");
+        }
+    }
+}
+
+class Text {
+    constructor(doc) {
+        this.doc = doc;
+    }
+
+    textBold() { this.doc.apply("bold"); }
+    textItalic() { this.doc.apply("italic"); }
+    textUnderline() { this.doc.apply("underline"); }
+    textHeading(level = 1) { this.doc.apply("formatBlock", `<H${level}>`); }
+    textSize(size) {
+        document.execCommand("fontSize", false, "7"); 
+        editor.querySelectorAll("font[size='7']").forEach(el => el.style.fontSize = size);
+    }
+    textFont(font) { this.doc.apply("fontName", font); }
+    textAlignment(align) { 
+        switch (align) {
+            case "left": this.doc.apply("justifyLeft"); break;
+            case "center": this.doc.apply("justifyCenter"); break;
+            case "right": this.doc.apply("justifyRight"); break;
+            case "justify": this.doc.apply("justifyFull"); break;
+        }
+    }
+    textColor(color) { this.doc.apply("foreColor", color); }
+    textHighlight(color) { this.doc.apply("hiliteColor", color); }
+}
+
+const doc = new WordDoc();
+const text = new Text(doc);
+
+document.querySelectorAll('[data-command]').forEach(btn => {
+    btn.addEventListener('click', () => {
+        const cmd = btn.dataset.command;
+        const val = btn.dataset.value || null;
+        doc.apply(cmd, val);
+    });
+});
+
+document.getElementById("font-size").addEventListener('change', e => text.textSize(e.target.value));
+document.getElementById("fontFamily").addEventListener('change', e => text.textFont(e.target.value));
+document.getElementById("textColor").addEventListener('change', e => text.textColor(e.target.value));
+document.getElementById("highlight").addEventListener('change', e => text.textHighlight(e.target.value));
+
+document.getElementById("clear-format").addEventListener('click', () => doc.clearFormat());
+document.getElementById("reset-editor").addEventListener('click', () => doc.resetEditor());
+document.getElementById("copy-plain").addEventListener('click', () => doc.copyText());
+document.getElementById("export-doc").addEventListener('click', () => doc.exportDoc());
+document.getElementById("export-pdf").addEventListener('click', () => doc.exportPDF());

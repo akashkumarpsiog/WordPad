@@ -1,82 +1,69 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset = "UTF-8">
-    <meta name="vieport" content="width=device-width, initial-scale = 1.0">
-    <title> WordPad </title>
-    <link rel="stylesheet" href = "styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WordPad</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
-
 <body>
-    <header> 
-        WordPad 
-    </header>
 
-    <nav id="toolbar">
-        <!-- Text formatting -->
-        <div class="toolbar-section" id="text-format">
-            <button data-command="bold"><b>B</b></button>
-            <button data-command="italic"><i>I</i></button>
-            <button data-command="underline"><u>U</u></button>
-            <select id="font-size">
-                <option value="12px">12</option>
-                <option value="14px">14</option>
-                <option value="16px" selected>16</option>
-                <option value="20px">20</option>
-                <option value="24px">24</option>   
-            </select>
-            <select id="fontFamily">
+<header>WordPad</header>
+
+<nav id="toolbar">
+    <div class="toolbar-section" id="text-format">
+        <button data-command="bold"><b>B</b></button>
+        <button data-command="italic"><i>I</i></button>
+        <button data-command="underline"><u>U</u></button>
+        <select id="font-size">
+            <option value="12px">12</option>
+            <option value="14px">14</option>
+            <option value="16px" selected>16</option>
+            <option value="20px">20</option>
+            <option value="24px">24</option>
+        </select>
+        <select id="fontFamily">
             <option value="Arial" selected>Arial</option>
             <option value="Times New Roman">Times New Roman</option>
             <option value="Courier New">Courier New</option>
             <option value="Georgia">Georgia</option>
-            </select>
-            <button data-command="justifyLeft">Left</button>
-            <button data-command="justifyRight">Right</button>
-            <button data-command="justifyCenter">Center</button>
-            <button data-command="justify">Justify</button>
-            <select id="textColor">Color</select>
-            <select id="highlight">Highlight</select>
-        </div>
+        </select>
+        <button data-command="justifyLeft">Left</button>
+        <button data-command="justifyRight">Right</button>
+        <button data-command="justifyCenter">Center</button>
+        <button data-command="justify">Justify</button>
+        <select id="textColor">Color</select>
+        <select id="highlight">Highlight</select>
+    </div>
 
-        <!-- Lists -->
-        <div class="toolbar-section" id="lists">
-            <button data-command="insertOrderedList">Ordered List</button>
-            <button data-command="insertUnorderedList">Unordered List</button>
-            <button data-command="indent">Indent</button>
-            <button data-command="outdent">Outdent</button>
-        </div>
+    <div class="toolbar-section" id="lists">
+        <button data-command="insertOrderedList">Ordered List</button>
+        <button data-command="insertUnorderedList">Unordered List</button>
+        <button data-command="indent">Indent</button>
+        <button data-command="outdent">Outdent</button>
+    </div>
 
-        <!-- Insert options -->
-        <div class="toolbar-section" id="insert">
-            <button id="insert-link">Link</button>
-            <button id="insert-image">Image</button>
-            <button id="insert-table">Table</button>
-        </div>
+    <div class="toolbar-section" id="insert">
+        <button id="insert-link">Link</button>
+        <button id="insert-image">Image</button>
+        <button id="insert-table">Table</button>
+    </div>
 
-        <!-- Document / Export options -->
-        <div class="toolbar-section" id="document-export">
-            <button id="clear-format">Clear Formatting</button>
-            <button id="reset-editor">Reset</button>
-            <button id="copy-plain">Copy Text</button>
-            <button id="export-doc">Export .doc</button>
-            <button id="export-pdf">Export PDF</button>
-        </div>
-    </nav>
+    <div class="toolbar-section" id="document-export">
+        <button id="clear-format">Clear Formatting</button>
+        <button id="reset-editor">Reset</button>
+        <button id="copy-plain">Copy Text</button>
+        <button id="export-doc">Export .doc</button>
+        <button id="export-pdf">Export PDF</button>
+    </div>
+</nav>
 
-    <main> 
-        <div id="editor" contenteditable="true">
-            Type your text here...
-        </div>
+<main>
+    <div id="editor" contenteditable="true">Type your text here...</div>
+</main>
 
-    </main>
+<footer>Akash's WordPad</footer>
 
-    <footer> 
-        Akash's WordPad
-    </footer>
-
-
-    <script src = "script.js"></script>
+<script src="script.js"></script>
 </body>
-
 </html>
