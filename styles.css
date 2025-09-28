@@ -1,6 +1,4 @@
-* {
-    box-sizing: border-box;
-}
+* { box-sizing: border-box; }
 
 body { 
     font-family: Arial, sans-serif; 
@@ -14,10 +12,8 @@ header, footer {
     display: flex;
     justify-content: center;
     align-items: center;
-    text-align: center;
     font-weight: bold;
     height: 4vh;
-    padding: 0.5rem;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
@@ -36,14 +32,13 @@ footer {
     box-shadow: 0 2px 5px rgba(0,0,0,0.05);
 }
 
-.toolbar-section {
-    display: flex;
-    gap: 0.5rem;
-    align-items: center;
-    flex-wrap: wrap;
-}
+.toolbar-section { 
+    display: flex; 
+    gap: 0.5rem; 
+    align-items: center; 
+    flex-wrap: wrap; }
 
-#toolbar button, #toolbar select {
+#toolbar button, #toolbar select, #toolbar input[type=color] {
     padding: 0.4rem 0.6rem;
     font-size: 0.9rem;
     border: 1px solid #bbb;
@@ -53,48 +48,71 @@ footer {
     transition: all 0.2s;
 }
 
-#toolbar button:hover, #toolbar select:hover {
-    background: #e0f0f5;
-    border-color: #7ac7d9;
+#toolbar button:hover, #toolbar select:hover { 
+    background: #e0f0f5; 
+    border-color: #7ac7d9; }
+
+#editor-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1rem;
 }
 
-#toolbar select {
-    min-width: 60px;
+.page {
+    width: 210mm; 
+    height: 297mm; 
+    margin: 2rem auto;
+    padding: 5rem;
+    background: white;
+    box-shadow: 0 0 5px rgba(0,0,0,0.1);
+    overflow: hidden;
+    position:relative;
 }
 
-#editor {
+.page:focus { outline: none; }
+
+.modal {
+    position: fixed;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
     border: 1px solid #ccc;
     padding: 1rem;
-    min-height: 50vh;
-    margin: 1rem;
-    width: calc(100% - 2rem);
-    overflow-y: auto;
-    font-size: 1rem;
-    background: #fff;
-    border-radius: 4px;
-    box-shadow: inset 0 0 5px rgba(0,0,0,0.05);
+    z-index: 1000;
+}
+
+.hidden { display: none; }
+
+.dark-mode { 
+    background: #333; 
+    color: #fff; 
+}
+.dark-mode .page { 
+    background: #444; 
+    color: #fff; 
+    border-color: #666; 
+}
+.dark-mode #toolbar { 
+    background: #555; 
 }
 
 @media (max-width: 900px) {
-    #toolbar {
+
+    #toolbar { 
         flex-direction: column;
-        align-items: stretch;
-        gap: 0.5rem;
+        gap: 0.5rem; 
     }
-
-    .toolbar-section {
-        flex-wrap: wrap;
-        justify-content: flex-start;
-        gap: 0.3rem;
+    .toolbar-section { 
+        flex-wrap: wrap; 
+        justify-content: flex-start; 
+        gap: 0.3rem; 
     }
-
-    #toolbar button, #toolbar select {
-        flex: 1 1 auto;
-        min-width: 40px;
+    #toolbar button, #toolbar select { 
+        flex: 1 1 auto; 
+        min-width: 40px; 
     }
-
-    #editor {
-        margin: 0.5rem;
-        min-height: 40vh;
+    #editor-container { 
+        padding: 0.5rem; 
     }
 }

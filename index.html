@@ -15,12 +15,18 @@
         <button data-command="bold"><b>B</b></button>
         <button data-command="italic"><i>I</i></button>
         <button data-command="underline"><u>U</u></button>
+        <select id="formatBlock">
+            <option value="p">Normal</option>
+            <option value="h1">H1</option>
+            <option value="h2">H2</option>
+            <option value="h3">H3</option>
+        </select>
         <select id="font-size">
-            <option value="12px">12</option>
-            <option value="14px">14</option>
-            <option value="16px" selected>16</option>
-            <option value="20px">20</option>
-            <option value="24px">24</option>
+            <option value="12">12</option>
+            <option value="14">14</option>
+            <option value="16" selected>16</option>
+            <option value="20">20</option>
+            <option value="24">24</option>
         </select>
         <select id="fontFamily">
             <option value="Arial" selected>Arial</option>
@@ -29,11 +35,15 @@
             <option value="Georgia">Georgia</option>
         </select>
         <button data-command="justifyLeft">Left</button>
-        <button data-command="justifyRight">Right</button>
         <button data-command="justifyCenter">Center</button>
-        <button data-command="justify">Justify</button>
-        <select id="textColor">Color</select>
-        <select id="highlight">Highlight</select>
+        <button data-command="justifyRight">Right</button>
+        <button data-command="justifyFull">Justify</button>
+
+        <label for="textColor">Text Color:</label>
+        <input type="color" id="textColor" value="#000000" title="Text Color">
+
+        <label for="highlight">Highlight:</label>
+        <input type="color" id="highlight" value="#ffff00" title="Highlight Color">
     </div>
 
     <div class="toolbar-section" id="lists">
@@ -45,25 +55,42 @@
 
     <div class="toolbar-section" id="insert">
         <button id="insert-link">Link</button>
-        <button id="insert-image">Image</button>
+        <button id="insert-image">Image URL</button>
+        <button id="insert-local-image">Local Image</button>
         <button id="insert-table">Table</button>
     </div>
 
+    <div id="insert-modal" class="modal hidden">
+        <input type="text" id="insert-input" placeholder="Enter URL">
+        <button id="insert-confirm">Insert</button>
+        <button id="insert-cancel">Cancel</button>
+    </div>
+
+    <div id="find-replace-modal" class="modal hidden">
+        <input type="text" id="find-text" placeholder="Find">
+        <input type="text" id="replace-text" placeholder="Replace">
+        <button id="replace-btn">Replace All</button>
+        <button id="find-replace-cancel">Cancel</button>
+    </div>
+
     <div class="toolbar-section" id="document-export">
+        <button id="find-replace">Find/Replace</button>
         <button id="clear-format">Clear Formatting</button>
         <button id="reset-editor">Reset</button>
         <button id="copy-plain">Copy Text</button>
+        <button id="preview">Preview</button>
         <button id="export-doc">Export .doc</button>
         <button id="export-pdf">Export PDF</button>
     </div>
+    <button id="toggle-theme">Toggle Theme</button>
+    
 </nav>
 
-<main>
-    <div id="editor" contenteditable="true">Type your text here...</div>
-</main>
+<div id="editor-container"></div>
 
 <footer>Akash's WordPad</footer>
 
+<script src="html2pdf.bundle.min.js"></script>
 <script src="script.js"></script>
 </body>
 </html>
