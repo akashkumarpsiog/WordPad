@@ -1,5 +1,32 @@
 const editorContainer = document.getElementById("editor-container");
-let currentPage = createNewPage();
+
+editorContainer.addEventListener("click",(e)=>{
+    if(e.target.tagName === "A"){
+        e.preventDefault();
+        window.open(e.target.href, '_blank');
+    }
+})
+// saving the selection 
+editorContainer.addEventListener("mouseup", e => {
+    if (e.target.classList.contains("page")) saveSelection();
+});
+editorContainer.addEventListener("keyup", e => {
+    if (e.target.classList.contains("page")) saveSelection();
+});
+//checking overflow and adding content to local storage
+editorContainer.addEventListener("input", e => {
+    if (e.target.classList.contains("page")) {
+        checkPageOverflow(e.target);
+        localStorage.setItem("editorContent", editorContainer.innerHTML);
+    }
+});
+//when we add something new we are letting the dom load the image 
+editorContainer.addEventListener("paste", e => {
+    if (e.target.classList.contains("page")) 
+        setTimeout(() => checkPageOverflow(e.target), 0);
+});
+
+let currentPage;
 
 //getting content and storing to localstorage.
 if (localStorage.getItem("editorContent")) {
@@ -7,26 +34,21 @@ editorContainer.innerHTML = localStorage.getItem("editorContent");
 currentPage = editorContainer.querySelector(".page:last-child") || createNewPage();
 }
 
+if(!currentPage){
+    currentPage=createNewPage();
+}
+
 function createNewPage() {
     const page = document.createElement("div");
     page.className = "page";
     page.contentEditable = true;
-    //checking overflow and adding content to local storage.
-    page.addEventListener("input", () => {
-        checkPageOverflow(page);
-        localStorage.setItem("editorContent", editorContainer.innerHTML);
-    });
-    //when we add something new we are letting the dom load the image first and then we check overflow
-    page.addEventListener("paste", () => 
-        setTimeout(() => checkPageOverflow(page), 0)
-    );
     editorContainer.appendChild(page);
     page.focus();
     return page;
 }
 
 function checkPageOverflow(page) {
-    //scrollheight is the hiehg tof the content
+    //scrollheight is the hieght of the content
     const pageHeight = page.clientHeight;
     let contentHeight = page.scrollHeight;
     if (contentHeight <= pageHeight) return;
@@ -165,13 +187,26 @@ class WordDoc {
         clone.style.pageBreakAfter = "always";
         combined.appendChild(clone);
     });
-    html2pdf().set({
-        filename: `${title}.pdf`,
-        jsPDF: { author: author, title: title }
-        }).from(combined).save();
-    } else {
-        showMessage("html2pdf.js not loaded");
-    }
+   const opt = { 
+    filename: `${title || "document"}.pdf`, 
+    jsPDF: { 
+        unit: "mm", 
+        format: "a4", 
+        orientation: "portrait" 
+    } }; 
+
+    html2pdf() 
+    .set(opt) 
+    .from(combined) 
+    .toPdf() 
+    .get("pdf") 
+    .then(function (pdf) { 
+        pdf.setProperties({ 
+            title: title || "Untitled", 
+            author: author || "Unknown" 
+        }); }) .save(); 
+    } else { 
+        showMessage("html2pdf.js not loaded"); }
     });
     });
     }
@@ -198,8 +233,14 @@ class Text {
 
 class List {
     constructor(doc) { this.doc = doc; }
-    orderedList() { this.doc.apply("insertOrderedList"); }
-    unorderedList() { this.doc.apply("insertUnorderedList"); }
+    orderedList() { 
+        restoreSelection();
+        this.doc.apply("insertOrderedList"); 
+    }
+    unorderedList() { 
+        restoreSelection();
+        this.doc.apply("insertUnorderedList"); 
+    }
     indent() { this.doc.apply("indent"); }
     outdent() { this.doc.apply("outdent"); }
     }
@@ -222,15 +263,19 @@ class List {
 class Insert {
     constructor(doc) { this.doc = doc; }
     insertLink() {
-    saveSelection();
-    showInput("Enter URL", url => {
-    if (url) {
-        restoreSelection();
-        this.doc.apply("createLink", url);
-        checkPageOverflow(currentPage);
+        saveSelection();
+        showInput("Enter URL", url => {
+            if (!url) return;
+            url = url.trim();
+            if (!/^https?:\/\//i.test(url)) {
+                url = 'https://' + url;
+            }
+            restoreSelection();
+            this.doc.apply("createLink", url);
+            checkPageOverflow(currentPage);
+        });
     }
-    });
-    }
+
     insertImage() {
     saveSelection();
     showInput("Enter Image URL", url => {
@@ -341,3 +386,4 @@ document.body.classList.toggle("dark-mode");
 localStorage.setItem("theme", document.body.classList.contains("dark-mode") ? "dark" : "light");
 });
 if (localStorage.getItem("theme") === "dark") document.body.classList.add("dark-mode");
+
