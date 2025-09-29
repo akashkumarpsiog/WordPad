@@ -39,7 +39,7 @@ footer {
     flex-wrap: wrap; }
 
 #toolbar button, #toolbar select, #toolbar input[type=color] {
-    padding: 0.4rem 0.6rem;
+    padding: 0.5rem 0.6rem;
     font-size: 0.9rem;
     border: 1px solid #bbb;
     border-radius: 4px;
@@ -68,6 +68,8 @@ footer {
     box-shadow: 0 0 5px rgba(0,0,0,0.1);
     overflow: hidden;
     position:relative;
+    line-height: 1.5;
+    font-size:14px;
 }
 
 .page:focus { outline: none; }
@@ -103,15 +105,19 @@ footer {
   overflow: auto;
   max-width: 100%;
   border: 1px #aaa; 
+  max-height: 100%;
 }
 .resizable-container img {
   width: 100%;
   height: auto;
+  max-height: 100%;
 }
 
 .resizable-container table {
   width: 100%;
+  max-height: 100%;
   border-collapse: collapse;
+
 }
 
 @media (max-width: 900px) {

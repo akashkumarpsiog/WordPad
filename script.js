@@ -65,6 +65,7 @@ nodesToMove.forEach(node => newPage.appendChild(node));
 
 //range api to move the cursor at the end of new page.
 //then we select all the content inside the new page and move the cursor to the end.
+
 const range = document.createRange();
 range.selectNodeContents(newPage);
 range.collapse(false); //this gets the new position the cursor should go to. 
