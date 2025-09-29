@@ -187,28 +187,22 @@ class WordDoc {
         clone.style.pageBreakAfter = "always";
         combined.appendChild(clone);
     });
-   const opt = { 
-    filename: `${title || "document"}.pdf`, 
-    jsPDF: { 
-        unit: "mm", 
-        format: "a4", 
-        orientation: "portrait" 
-    } }; 
-
-    html2pdf() 
-    .set(opt) 
-    .from(combined) 
-    .toPdf() 
-    .get("pdf") 
-    .then(function (pdf) { 
-        pdf.setProperties({ 
-            title: title || "Untitled", 
-            author: author || "Unknown" 
-        }); }) .save(); 
-    } else { 
-        showMessage("html2pdf.js not loaded"); }
-    });
-    });
+    const opt = { 
+        filename: `${title || "document"}.pdf`, 
+        jsPDF: { 
+            unit: "mm", 
+            format: "a4", 
+            orientation: "portrait" 
+        } }; 
+        //html2pdf creates a new html to pdf instance
+        //then we set opt to show how to generate the pdf
+        //from - source content html
+        html2pdf().set(opt).from(combined).save();
+        } 
+        else { 
+            showMessage("html2pdf.js not loaded"); }
+        });
+        });
     }
 }
 
