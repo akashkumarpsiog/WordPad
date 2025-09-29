@@ -1,6 +1,7 @@
 const editorContainer = document.getElementById("editor-container");
 let currentPage = createNewPage();
 
+//getting content and storing to localstorage.
 if (localStorage.getItem("editorContent")) {
 editorContainer.innerHTML = localStorage.getItem("editorContent");
 currentPage = editorContainer.querySelector(".page:last-child") || createNewPage();
@@ -10,10 +11,12 @@ function createNewPage() {
     const page = document.createElement("div");
     page.className = "page";
     page.contentEditable = true;
+    //checking overflow and adding content to local storage.
     page.addEventListener("input", () => {
         checkPageOverflow(page);
         localStorage.setItem("editorContent", editorContainer.innerHTML);
     });
+    //when we add something new we are letting the dom load the image first and then we check overflow
     page.addEventListener("paste", () => 
         setTimeout(() => checkPageOverflow(page), 0)
     );
@@ -23,25 +26,30 @@ function createNewPage() {
 }
 
 function checkPageOverflow(page) {
+    //scrollheight is the hiehg tof the content
     const pageHeight = page.clientHeight;
     let contentHeight = page.scrollHeight;
     if (contentHeight <= pageHeight) return;
     const nodesToMove = [];
+    // if the scrollheight is greater then we add the lastchild to the array and remove it from page.
     while (page.scrollHeight > pageHeight && page.lastChild) {
     nodesToMove.unshift(page.lastChild);
     page.removeChild(page.lastChild);
 }
 
+//creating new page and adding that content there.
 const newPage = createNewPage();
 nodesToMove.forEach(node => newPage.appendChild(node));
+
+//range api to move the cursor at the end of new page.
+//then we select all the content inside the new page and move the cursor to the end.
 const range = document.createRange();
 range.selectNodeContents(newPage);
-range.collapse(false);
+range.collapse(false); //this gets the new position the cursor should go to. 
 const selection = window.getSelection();
-selection.removeAllRanges();
-selection.addRange(range);
+selection.removeAllRanges(); 
+selection.addRange(range); //then we add it to the end.
 currentPage = newPage;
-
 }
 
 function showMessage(message, callback) {
@@ -136,6 +144,7 @@ class WordDoc {
     <body>
     ${Array.from(editorContainer.querySelectorAll(".page")).map(p =>`<div class="page">${p.innerHTML}</div>`).join('')}                     </body>                     </html>
     `;
+    //we create a new binary large object of the html content. create an objecturl of it then we click it to automatically download.
     const blob = new Blob([fullHtml], { type: "application/msword" });
     const link = document.createElement("a");
     link.href = URL.createObjectURL(blob);
@@ -194,7 +203,7 @@ class List {
     indent() { this.doc.apply("indent"); }
     outdent() { this.doc.apply("outdent"); }
     }
-
+    
     let savedRange = null;
     function saveSelection() {
     const sel = window.getSelection();
@@ -208,7 +217,7 @@ class List {
         sel.removeAllRanges();
         sel.addRange(savedRange);
     }
-}
+    }
 
 class Insert {
     constructor(doc) { this.doc = doc; }
@@ -260,7 +269,7 @@ class Insert {
         for (let r = 0; r < rows; r++) {
             table += "<tr>";
             for (let c = 0; c < cols; c++) {
-                table += "<td style='border:1px solid black;padding:5px;'> </td>";
+                table += "<td style='border:1px solid black;padding:5px;'></td>";
             }
             table += "</tr>";
         }
@@ -285,7 +294,7 @@ document.querySelectorAll("[data-command]").forEach(btn => {
 });
 
 document.getElementById("formatBlock").addEventListener("change", e => {
-doc.apply("formatBlock", `<${e.target.value.toUpperCase()}>`);
+    doc.apply("formatBlock", `<${e.target.value.toUpperCase()}>`);
 });
 document.getElementById("font-size").addEventListener("change", e => text.textSize(e.target.value));
 document.getElementById("fontFamily").addEventListener("change", e => text.textFont(e.target.value));
@@ -293,13 +302,13 @@ document.getElementById("textColor").addEventListener("change", e => text.textCo
 document.getElementById("highlight").addEventListener("change", e => text.textHighlight(e.target.value));
 
 document.getElementById("find-replace").addEventListener("click", () => {
-document.getElementById("find-replace-modal").classList.remove("hidden");
+    document.getElementById("find-replace-modal").classList.remove("hidden");
 });
 document.getElementById("replace-btn").addEventListener("click", () => {
-const find = document.getElementById("find-text").value;
-const replace = document.getElementById("replace-text").value;
-doc.findReplace(find, replace);
-document.getElementById("find-replace-modal").classList.add("hidden");
+    const find = document.getElementById("find-text").value;
+    const replace = document.getElementById("replace-text").value;
+    doc.findReplace(find, replace);
+    document.getElementById("find-replace-modal").classList.add("hidden");
 });
 document.getElementById("find-replace-cancel").addEventListener("click", () => {
 document.getElementById("find-replace-modal").classList.add("hidden");
@@ -319,11 +328,11 @@ document.getElementById("insert-table").addEventListener("click", () => insert.i
 
 document.querySelectorAll("#lists button").forEach(btn => {
 btn.addEventListener("click", () => {
-const cmd = btn.dataset.command;
-if (cmd === "insertOrderedList") list.orderedList();
-else if (cmd === "insertUnorderedList") list.unorderedList();
-else if (cmd === "indent") list.indent();
-else if (cmd === "outdent") list.outdent();
+    const cmd = btn.dataset.command;
+    if (cmd === "insertOrderedList") list.orderedList();
+    else if (cmd === "insertUnorderedList") list.unorderedList();
+    else if (cmd === "indent") list.indent();
+    else if (cmd === "outdent") list.outdent();
 });
 });
 
