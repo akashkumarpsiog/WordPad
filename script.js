@@ -281,7 +281,11 @@ class Insert {
     showInput("Enter Image URL", url => {
     if (url) {
         restoreSelection();
-        const html = `<img src="${url}" style="max-width:100%; display:block;">`;
+        const html = `
+        <div class="resizable-container" contenteditable="false">
+            <img src="${url}" style="max-width:100%; display:block;">
+        </div>
+        `;
         this.doc.apply("insertHTML", html);
         checkPageOverflow(currentPage);
     }
@@ -297,7 +301,11 @@ class Insert {
         const reader = new FileReader();
         reader.onload = e => {
             restoreSelection();
-            const html = `<img src="${e.target.result}" style="max-width:100%; display:block;">`;
+            const html = `
+            <div class="resizable-container" contenteditable="false">
+                <img src="${e.target.result}" style="max-width:100%; display:block;">
+            </div>
+            `;
             this.doc.apply("insertHTML", html);
             checkPageOverflow(currentPage);
         };
@@ -308,19 +316,20 @@ class Insert {
     insertTable() {
     saveSelection();
     showInput("Enter number of rows", rows => {
-    showInput("Enter number of columns", cols => {
-        restoreSelection();
-        let table = "<table style='border:1px solid black;border-collapse:collapse;width:100%;'>";
-        for (let r = 0; r < rows; r++) {
-            table += "<tr>";
-            for (let c = 0; c < cols; c++) {
-                table += "<td style='border:1px solid black;padding:5px;'></td>";
+        showInput("Enter number of columns", cols => {
+            restoreSelection();
+            let tableHTML = "<table style='border:1px solid black;border-collapse:collapse;width:100%;'>";
+            for (let r = 0; r < rows; r++) {
+                tableHTML += "<tr>";
+                for (let c = 0; c < cols; c++) {
+                    tableHTML += "<td style='border:1px solid black;padding:5px;'></td>";
+                }
+                tableHTML += "</tr>";
             }
-            table += "</tr>";
-        }
-        table += "</table><br/>";
-        this.doc.apply("insertHTML", table);
-        checkPageOverflow(currentPage);
+            tableHTML += "</table>";
+            const html = `<div class="resizable-container">${tableHTML}</div><br/>`;
+            this.doc.apply("insertHTML", html);
+            checkPageOverflow(currentPage);
         });
     });
     }
