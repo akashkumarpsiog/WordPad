@@ -8,43 +8,23 @@ editorContainer.addEventListener("click",(e)=>{
 })
 // saving the selection 
 editorContainer.addEventListener("mouseup", e => {
-    if (e.target.classList.contains(".page")) saveSelection();
+    if (e.target.classList.contains("page")) saveSelection();
 });
 editorContainer.addEventListener("keyup", e => {
-    if (e.target.classList.contains(".page")) saveSelection();
+    if (e.target.classList.contains("page")) saveSelection();
 });
 //checking overflow and adding content to local storage
 editorContainer.addEventListener("input", e => {
-    if (e.target.classList.contains(".page")) {
+    if (e.target.classList.contains("page")) {
         checkPageOverflow(e.target);
         localStorage.setItem("editorContent", editorContainer.innerHTML);
     }
 });
 //when we add something new we are letting the dom load the image 
 editorContainer.addEventListener("paste", e => {
-    if (e.target.classList.contains(".page")) 
+    if (e.target.classList.contains("page")) 
         setTimeout(() => checkPageOverflow(e.target), 0);
 });
-
-function addPageNumbers() {
-  const pages = document.querySelectorAll(".page");
-  pages.forEach((page, index) => {
-    let footer = page.querySelector(".page-number");
-    if (!footer) {
-      footer = document.createElement("div");
-      footer.className = "page-number";
-      footer.style.position = "absolute";
-      footer.style.bottom = "10px";
-      footer.style.right = "20px";
-      footer.style.fontSize = "12px";
-      footer.style.color = "#555";
-      footer.contentEditable="false";
-      footer.style.userSelect="none";
-      page.appendChild(footer);
-    }
-    footer.textContent = `Page ${index + 1}`;
-  });
-}
 
 let currentPage;
 
@@ -64,51 +44,28 @@ function createNewPage() {
     page.contentEditable = "true";
 
     const initialContent = document.createElement("p");
-    initialContent.innerHTML = "&nbsp;"; 
+    initialContent.innerHTML = "&nbsp;";
     page.appendChild(initialContent);
 
-    const footer = document.createElement("div");
-    footer.className = "page-number";
-    footer.contentEditable = "false";
-    footer.style.position = "absolute";
-    footer.style.bottom = "10px";
-    footer.style.right = "20px";
-    footer.style.fontSize = "12px";
-    footer.style.color = "#555";
-    footer.style.userSelect = "none";
-    page.appendChild(footer);
-
     editorContainer.appendChild(page);
-    addPageNumbers();
-
-    page.focus();
-    const range = document.createRange();
-    range.setStart(initialContent, 0);
-    range.collapse(true);
-    const sel = window.getSelection();
-    sel.removeAllRanges();
-    sel.addRange(range);
 
     return page;
 }
 
+
 function checkPageOverflow(page) {
-    const footer = page.querySelector(".page-number");
     const pageHeight = page.clientHeight;
 
-    // Keep moving last editable node to a new page until it fits
     while (page.scrollHeight > pageHeight) {
-        const children = Array.from(page.childNodes).filter(n => n !== footer);
+        const children = Array.from(page.childNodes);
         if (!children.length) break;
 
         const lastNode = children[children.length - 1];
         page.removeChild(lastNode);
 
         const newPage = createNewPage();
-        const newFooter = newPage.querySelector(".page-number");
-        newPage.insertBefore(lastNode, newFooter);
+        newPage.appendChild(lastNode);
 
-        // Move cursor to the end of new page
         const range = document.createRange();
         range.selectNodeContents(lastNode);
         range.collapse(false);
