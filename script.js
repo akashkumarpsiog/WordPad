@@ -38,6 +38,8 @@ function addPageNumbers() {
       footer.style.right = "20px";
       footer.style.fontSize = "12px";
       footer.style.color = "#555";
+      footer.contentEditable="false";
+      footer.style.userSelect="none";
       page.appendChild(footer);
     }
     footer.textContent = `Page ${index + 1}`;
@@ -59,50 +61,63 @@ if(!currentPage){
 function createNewPage() {
     const page = document.createElement("div");
     page.className = "page";
-    page.contentEditable = true;
+    page.contentEditable = "true";
+
+    const initialContent = document.createElement("p");
+    initialContent.innerHTML = "&nbsp;"; 
+    page.appendChild(initialContent);
+
+    const footer = document.createElement("div");
+    footer.className = "page-number";
+    footer.contentEditable = "false";
+    footer.style.position = "absolute";
+    footer.style.bottom = "10px";
+    footer.style.right = "20px";
+    footer.style.fontSize = "12px";
+    footer.style.color = "#555";
+    footer.style.userSelect = "none";
+    page.appendChild(footer);
+
     editorContainer.appendChild(page);
-    page.focus();
     addPageNumbers();
+
+    page.focus();
+    const range = document.createRange();
+    range.setStart(initialContent, 0);
+    range.collapse(true);
+    const sel = window.getSelection();
+    sel.removeAllRanges();
+    sel.addRange(range);
+
     return page;
 }
 
 function checkPageOverflow(page) {
-    //scrollheight is the hieght of the content
+    const footer = page.querySelector(".page-number");
     const pageHeight = page.clientHeight;
-    let contentHeight = page.scrollHeight;
-    if (contentHeight <= pageHeight) return;
-    const nodesToMove = [];
-    // if the scrollheight is greater then we add the lastchild to the array and remove it from page.
-    while (page.scrollHeight > pageHeight && page.lastChild) {
-    nodesToMove.unshift(page.lastChild);
-    page.removeChild(page.lastChild);
-}
 
-//creating new page and adding that content there.
-const newPage = createNewPage();
-nodesToMove.forEach(node => newPage.appendChild(node));
+    // Keep moving last editable node to a new page until it fits
+    while (page.scrollHeight > pageHeight) {
+        const children = Array.from(page.childNodes).filter(n => n !== footer);
+        if (!children.length) break;
 
-//range api to move the cursor at the end of new page.
-//then we select all the content inside the new page and move the cursor to the end.
+        const lastNode = children[children.length - 1];
+        page.removeChild(lastNode);
 
-const range = document.createRange();
-range.selectNodeContents(newPage);
-range.collapse(false); //this gets the new position the cursor should go to. 
-const selection = window.getSelection();
-selection.removeAllRanges(); 
-selection.addRange(range); //then we add it to the end.
-currentPage = newPage;
-}
+        const newPage = createNewPage();
+        const newFooter = newPage.querySelector(".page-number");
+        newPage.insertBefore(lastNode, newFooter);
 
-function showMessage(message, callback) {
-    const modal = document.getElementById("message-modal");
-    const text = document.getElementById("message-text");
-    text.textContent = message;
-    modal.classList.remove("hidden");
-    document.getElementById("message-ok").onclick = () => {
-    modal.classList.add("hidden");
-    if (callback) callback();
-};
+        // Move cursor to the end of new page
+        const range = document.createRange();
+        range.selectNodeContents(lastNode);
+        range.collapse(false);
+        const sel = window.getSelection();
+        sel.removeAllRanges();
+        sel.addRange(range);
+
+        currentPage = newPage;
+    }
 }
 
 function showInput(promptText, callback) {
@@ -410,4 +425,3 @@ document.body.classList.toggle("dark-mode");
 localStorage.setItem("theme", document.body.classList.contains("dark-mode") ? "dark" : "light");
 });
 if (localStorage.getItem("theme") === "dark") document.body.classList.add("dark-mode");
-
