@@ -8,21 +8,21 @@ editorContainer.addEventListener("click",(e)=>{
 })
 // saving the selection 
 editorContainer.addEventListener("mouseup", e => {
-    if (e.target.classList.contains("page")) saveSelection();
+    if (e.target.classList.contains(".page")) saveSelection();
 });
 editorContainer.addEventListener("keyup", e => {
-    if (e.target.classList.contains("page")) saveSelection();
+    if (e.target.classList.contains(".page")) saveSelection();
 });
 //checking overflow and adding content to local storage
 editorContainer.addEventListener("input", e => {
-    if (e.target.classList.contains("page")) {
+    if (e.target.classList.contains(".page")) {
         checkPageOverflow(e.target);
         localStorage.setItem("editorContent", editorContainer.innerHTML);
     }
 });
 //when we add something new we are letting the dom load the image 
 editorContainer.addEventListener("paste", e => {
-    if (e.target.classList.contains("page")) 
+    if (e.target.classList.contains(".page")) 
         setTimeout(() => checkPageOverflow(e.target), 0);
 });
 
