@@ -26,6 +26,24 @@ editorContainer.addEventListener("paste", e => {
         setTimeout(() => checkPageOverflow(e.target), 0);
 });
 
+function addPageNumbers() {
+  const pages = document.querySelectorAll(".page");
+  pages.forEach((page, index) => {
+    let footer = page.querySelector(".page-number");
+    if (!footer) {
+      footer = document.createElement("div");
+      footer.className = "page-number";
+      footer.style.position = "absolute";
+      footer.style.bottom = "10px";
+      footer.style.right = "20px";
+      footer.style.fontSize = "12px";
+      footer.style.color = "#555";
+      page.appendChild(footer);
+    }
+    footer.textContent = `Page ${index + 1}`;
+  });
+}
+
 let currentPage;
 
 //getting content and storing to localstorage.
@@ -44,6 +62,7 @@ function createNewPage() {
     page.contentEditable = true;
     editorContainer.appendChild(page);
     page.focus();
+    addPageNumbers();
     return page;
 }
 
@@ -100,6 +119,7 @@ function showInput(promptText, callback) {
 };
 
 document.getElementById("input-cancel").onclick = () => modal.classList.add("hidden");
+
 }
 
 class WordDoc {

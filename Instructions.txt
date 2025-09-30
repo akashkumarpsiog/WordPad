@@ -147,3 +147,14 @@ Deadline:
  
 
 ✅ This assignment mimics the WordPad experience inside WordPress, while testing your front-end coding skills and OOP knowledge in JavaScript. 
+
+
+
+page number
+
+
+1. no difference
+2. e is a click and e.target is a link. 
+preventdefault ensures the default behavior of the editorcontainer is not used but im not sure why we need to do that like i know that will allow us to go to the new page
+e.currenttarget im not sure what that is
+mouseup and keyup lets both of these things work with that.
