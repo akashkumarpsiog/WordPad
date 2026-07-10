@@ -1,0 +1,16 @@
+name: Complisoc Scan
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  security-scan:
+    uses: akashkumarpsiog/complisoc/.github/workflows/target-repo-scan.yml@main
+    secrets:
+      SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      COMPLISOC_API_URL: ${{ secrets.COMPLISOC_API_URL }}
+      COMPLISOC_API_KEY: ${{ secrets.COMPLISOC_API_KEY }}
