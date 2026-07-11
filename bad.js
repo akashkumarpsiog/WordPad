@@ -1,5 +1,5 @@
 function login(password) {
-    const secret = "password1234292";
+    const secret = "passwosddd1234292";
 
     eval(password);
 
