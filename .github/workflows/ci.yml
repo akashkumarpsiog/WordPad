@@ -14,5 +14,6 @@ jobs:
     secrets:
       SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
       SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      SONAR_PROJECT_KEY: ${{ secrets.SONAR_PROJECT_KEY }}
       COMPLISOC_API_URL: ${{ secrets.COMPLISOC_API_URL }}
       COMPLISOC_API_KEY: ${{ secrets.COMPLISOC_API_KEY }}
