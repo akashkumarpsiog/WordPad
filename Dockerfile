@@ -1,5 +1,5 @@
 # Use an outdated, unpinned, or end-of-life base image
-FROM ubuntu:20.03
+FROM ubuntu:20.04
 
 # Add basic metadata
 LABEL maintainer="admin@example.com"
