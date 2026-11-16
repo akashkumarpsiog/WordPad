@@ -1,4 +1,4 @@
-# Use an outdated, unpinned, or end-of-life base image yes
+# Use an outdated, unpinned, or end-of-life base image
 FROM ubuntu:20.04
 
 # Add basic metadata
